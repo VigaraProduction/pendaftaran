@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Portal PPCAB</title>
+  <link rel="icon" href="Logo.png" />
+  <style>
+    :root {
+      --primary: #facc15;
+      --secondary: #1e40af;
+      --accent: #1e90ff;
+      --success: #4CAF50;
+      --gray: #f3f4f6;
+    }
+
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background: var(--gray);
+      color: #333;
+    }
+
+    /* Sticky Navbar Putih Paling Atas */
+    #navbar {
+      background-color: white;
+      padding: 10px 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+    }
+
+    .nav-container {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .logo {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      object-fit: cover;
+      background-color: white;
+    }
+
+    .nav-title {
+      font-size: 18px;
+      font-weight: bold;
+      color: black;
+    }
+
+    /* Sticky Navbar Biru */
+    #blue-navbar {
+      background-color: #64748b;
+      color: white;
+      padding: 10px 20px;
+      font-weight: bold;
+      font-size: 15px;
+      position: sticky;
+      top: 56px; /* Tinggi navbar putih */
+      z-index: 999;
+    }
+
+    /* Sticky Running Teks */
+    #header {
+      background: var(--primary);
+      padding: 6px 0;
+      overflow: hidden;
+      position: sticky;
+      top: 92px; /* Tinggi navbar putih + biru */
+      z-index: 998;
+    }
+
+    #running-text {
+      white-space: nowrap;
+      display: inline-block;
+      animation: marquee 15s linear infinite;
+      font-weight: bold;
+      color: black;
+      font-size: 14px;
+    }
+
+    @keyframes marquee {
+      0% { transform: translateX(100%); }
+      100% { transform: translateX(-100%); }
+    }
+
+    #form-container {
+      background: white;
+      margin: 20px auto;
+      padding: 20px;
+      max-width: 500px;
+      border-radius: 16px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    }
+
+    h2 {
+      text-align: center;
+      margin-bottom: 24px;
+      color: var(--secondary);
+    }
+
+    label {
+      display: block;
+      margin-top: 14px;
+      margin-bottom: 6px;
+      font-size: 15px;
+      font-weight: 600;
+    }
+
+    input, select, textarea {
+      width: 100%;
+      padding: 12px;
+      font-size: 15px;
+      border: 1px solid #ccc;
+      border-radius: 10px;
+      box-sizing: border-box;
+      transition: border-color 0.2s;
+    }
+
+    input:focus, select:focus, textarea:focus {
+      border-color: var(--accent);
+      outline: none;
+    }
+
+    textarea {
+      resize: vertical;
+    }
+
+    button[type="submit"] {
+      width: 100%;
+      margin-top: 20px;
+      background: var(--accent);
+      color: white;
+      font-weight: bold;
+      padding: 14px;
+      font-size: 16px;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+
+    button[type="submit"]:hover {
+      background: #1565c0;
+    }
+
+    .modal, #loadingSpinner {
+      display: none;
+      position: fixed;
+      top: 0; left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: rgba(0,0,0,0.5);
+      align-items: center;
+      justify-content: center;
+      z-index: 999;
+    }
+
+    .modal-content {
+      background: white;
+      padding: 30px;
+      border-radius: 16px;
+      width: 90%;
+      max-width: 320px;
+      text-align: center;
+      animation: fadeIn 0.3s ease;
+    }
+
+    .checkmark {
+      width: 60px;
+      height: 60px;
+      background: var(--success);
+      border-radius: 50%;
+      margin: 0 auto 16px;
+      position: relative;
+    }
+
+    .checkmark::after {
+      content: '';
+      position: absolute;
+      left: 20px;
+      top: 14px;
+      width: 14px;
+      height: 28px;
+      border: solid white;
+      border-width: 0 4px 4px 0;
+      transform: rotate(45deg);
+    }
+
+    #joinWhatsApp {
+      background: #25D366;
+      color: white;
+      padding: 12px;
+      margin-top: 16px;
+      width: 100%;
+      border: none;
+      border-radius: 8px;
+      font-size: 15px;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+
+    #joinWhatsApp:hover {
+      background: #128C7E;
+    }
+
+    #footer {
+      text-align: center;
+      font-size: 13px;
+      margin: 30px 0;
+      color: #888;
+    }
+
+    #loadingSpinner .spinner {
+      border: 6px solid #eee;
+      border-top: 6px solid var(--accent);
+      border-radius: 50%;
+      width: 50px;
+      height: 50px;
+      animation: spin 1s linear infinite;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: scale(0.9); }
+      to { opacity: 1; transform: scale(1); }
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+
+    @media (max-width: 600px) {
+      h2 { font-size: 20px; }
+      label, input, select, textarea, button { font-size: 15px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Sticky Navbar Putih -->
+  <nav id="navbar">
+    <div class="nav-container">
+      <img src="Logo.png" alt="Logo" class="logo">
+      <span class="nav-title">Vigara Production</span>
+    </div>
+  </nav>
+
+  <!-- Sticky Navbar Biru -->
+  <div id="blue-navbar">
+    <span>Pendaftaran PPCAB Generasi X</span>
+  </div>
+
+  <!-- Sticky Running Text -->
+  <div id="header">
+    <div id="running-text">
+      Selamat Datang di Portal Pendaftaran PPCAB | Setelah Simpan Data, Akan ada Link Group tertaut, Gabung grup setelah isi data ya!
+    </div>
+  </div>
+
+  <!-- Formulir -->
+  <div id="form-container">
+    <h2>Pendaftaran Vigara Production</h2>
+    <form id="myForm">
+      <label for="nama">Nama:</label>
+      <input type="text" id="nama" name="nama" required>
+
+      <label for="kelas">Kelas:</label>
+      <select id="kelas" name="kelas" required>
+        <option value="">Pilih Kelas</option>
+        <option>XA</option><option>XB</option><option>XC</option>
+        <option>XD</option><option>XE</option><option>XF</option><option>XG</option>
+      </select>
+
+      <label for="tgl_lahir">Tanggal Lahir:</label>
+      <input type="date" id="tgl_lahir" name="tgl_lahir" required>
+
+      <form id="no_hp">
+      <label for="no_hp">Nomor Handphone (WA):</label>
+      <input type="text" id="no_hp" name="no_hp" required>
+
+      <label for="divisi_1">Divisi 1:</label>
+      <select id="divisi_1" name="divisi1" required>
+        <option value="">Pilih Divisi</option>
+        <option>Kameramen</option>
+        <option>Scriptwriter</option>
+        <option>Editor</option>
+        <option>Design Visual</option>
+        <option>TIDAK MEMILIH</option>
+      </select>
+
+      <label for="divisi_2">Divisi 2:</label>
+      <select id="divisi_2" name="divisi2" required>
+        <option value="">Pilih Divisi</option>
+      </select>
+
+      <label for="alasan1">Alasan Divisi 1:</label>
+      <textarea name="alasan1" rows="4" required></textarea>
+
+      <label for="alasan2">Alasan Divisi 2:</label>
+      <textarea name="alasan2" rows="4" required></textarea>
+
+      <button type="submit">Simpan Data</button>
+    </form>
+  </div>
+
+  <!-- Modal Sukses -->
+  <div id="successModal" class="modal">
+    <div class="modal-content">
+      <div class="checkmark"></div>
+      <h3>Berhasil Terkirim!</h3>
+      <p>Gabung ke grup WhatsApp dengan klik tombol di bawah:</p>
+      <button id="joinWhatsApp">Gabung WhatsApp</button>
+    </div>
+  </div>
+
+  <!-- Spinner -->
+  <div id="loadingSpinner" class="modal">
+    <div class="spinner"></div>
+  </div>
+
+  <!-- Footer -->
+  <div id="footer">
+    &copy; 2025 Vigara Production. All rights reserved.
+  </div>
+
+  <script>
+    const form = document.getElementById('myForm');
+    const modal = document.getElementById('successModal');
+    const joinBtn = document.getElementById('joinWhatsApp');
+    const spinner = document.getElementById('loadingSpinner');
+    const divisi1 = document.getElementById('divisi_1');
+    const divisi2 = document.getElementById('divisi_2');
+    const allOptions = ['Kameramen', 'Scriptwriter', 'Editor', 'Design Visual'];
+    const scriptURL = 'https://script.google.com/macros/s/AKfycbzY-3S3rxGI2S1D_j_bqnDT7pRGmrpzo8_12Nkm8pZw5d4Ucc8eJemv1DDX6Fh3zxGM/exec';
+
+    divisi1.addEventListener('change', () => {
+      const selected = divisi1.value;
+      divisi2.innerHTML = '<option value="">Pilih Divisi</option>';
+      allOptions.forEach(opt => {
+        if (opt !== selected) {
+          const option = document.createElement('option');
+          option.value = opt;
+          option.textContent = opt;
+          divisi2.appendChild(option);
+        }
+      });
+    });
+
+    form.addEventListener('submit', function (e) {
+      e.preventDefault();
+      const btn = form.querySelector('button[type="submit"]');
+      btn.disabled = true;
+      btn.textContent = "Mengirim...";
+      spinner.style.display = "flex";
+
+      const formData = new FormData(form);
+      fetch(scriptURL, {
+        method: 'POST',
+        body: formData
+      })
+      .then(res => res.text())
+      .then(text => {
+        if (text.toLowerCase().includes("berhasil")) {
+          form.reset();
+          modal.style.display = "flex";
+        } else {
+          alert("Gagal: " + text);
+        }
+      })
+      .catch(() => alert("Terjadi kesalahan."))
+      .finally(() => {
+        btn.disabled = false;
+        btn.textContent = "Simpan Data";
+        spinner.style.display = "none";
+      });
+    });
+
+    joinBtn.addEventListener('click', () => {
+      window.open('https://chat.whatsapp.com/F2ZYiXVGpDn2iRKYonD54q');
+    });
+  </script>
+</body>
+</html>                  
